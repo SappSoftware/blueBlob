@@ -20,6 +20,7 @@ Graph = Class{
     self.deltaX = 10
     self.deltaY = 10
     self.numHit = {}
+    self.globsLeft = 10
     
     self.isOfX = true
     
@@ -319,6 +320,7 @@ Graph = Class{
               if glob.mask:contains(self.graphingPoints[#self.graphingPoints][x][1], self.graphingPoints[#self.graphingPoints][x][2]) and not glob.isHit then
                 glob.isHit = true
                 self.numHit[#self.graphingPoints] = self.numHit[#self.graphingPoints] + 1
+                self.globsLeft = self.globsLeft - 1
               end
             end
           end
@@ -331,6 +333,7 @@ Graph = Class{
               if glob.mask:contains(self.graphingPoints[#self.graphingPoints][y][1], self.graphingPoints[#self.graphingPoints][y][2]) and not glob.isHit then
                 glob.isHit = true
                 self.numHit[#self.graphingPoints] = self.numHit[#self.graphingPoints] + 1
+                self.globsLeft = self.globsLeft - 1
               end
             end
           end
@@ -347,6 +350,10 @@ Graph = Class{
     return score
   end;
   
+  getGlobsLeft = function(self)
+    return self.globsLeft
+  end;
+  
   markOldData = function(self)
     for _, glob in ipairs(self.globs) do
       if glob.isHit == true then
@@ -357,6 +364,7 @@ Graph = Class{
   
   generateGlobs = function(self, numGlobs, globRadius)
     local adjustedGlobRadius = globRadius * self.xScale
+    self.globsLeft = numGlobs
     while #self.globs < numGlobs do
       local tooClose = false
       local x = love.math.random(math.ceil((self.minX+globRadius)*self.xScale), math.floor((self.maxX-globRadius)*self.xScale))
@@ -382,6 +390,7 @@ Graph = Class{
     self.graphingLines = {}
     self.numHit = {}
     self.globs = {}
+    self.globsLeft = 10
     self.currentIter = 1
     self.currentX = -SW/2
     self.currentY = -SW/2
@@ -390,9 +399,16 @@ Graph = Class{
   checkPreviousEquations = function(self)
     if #self.expression > 1 then
       for i = 1, #self.expression-1 do
-        if self.expression[i] == self.expression[#self.expression] then
-          table.remove(self.expression)
-          return true
+        if self.isOfX then
+          if self.expression[i] == "y = " .. self.expression[#self.expression] then
+            table.remove(self.expression)
+            return true
+          end
+        else
+          if self.expression[i] == "x = " .. self.expression[#self.expression] then
+            table.remove(self.expression)
+            return true
+          end
         end
       end
     end

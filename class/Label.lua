@@ -1,9 +1,10 @@
-TextLine = Class{
-  init = function(self, text, x, y, alignment, color)
+Label = Class{
+  init = function(self, text, x, y, alignment, color, font)
     self.text = text
     self.x = math.floor(SW*(x))
     self.y = math.floor(SH*(y))
     self.alignment = alignment or "left"
+    self.font = font or FNT.DEFAULT
     self.color = color or CLR.WHITE
     self.ox = 0
     self.oy = math.floor(love.graphics.getFont():getHeight()/2)
@@ -16,10 +17,12 @@ TextLine = Class{
   
   draw = function(self)
     love.graphics.setColor(self.color)
+    love.graphics.setFont(self.font)
     love.graphics.print(self.text, self.x, self.y, 0, 1, 1, self.ox, self.oy)
+    love.graphics.setFont(FNT.DEFAULT)
   end;
   
-  setText = function(self, text)
+  settext = function(self, text)
     self.text = text
     self.ox = 0
     self.oy = math.floor(love.graphics.getFont():getHeight()/2)
@@ -30,11 +33,11 @@ TextLine = Class{
     end
   end;
   
-  setColor = function(self, color)
+  setcolor = function(self, color)
     self.color = color
   end;
   
-  setPosition = function(self, x, y)
+  setposition = function(self, x, y)
     self.x = x
     self.y = y
   end;

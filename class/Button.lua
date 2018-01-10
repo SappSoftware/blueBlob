@@ -13,6 +13,10 @@ Button = Class{
     self.isSelectable = true
   end;
   
+  update = function(self, dt)
+    
+  end;
+  
   draw = function(self)
     if self.isActive then
       if self.isSelectable then
@@ -48,6 +52,11 @@ Button = Class{
     if self.isHighlighted then
       self:action()
     end
+  end;
+  
+  settext = function(self, newText)		
+    self.text = newText		
+    self.yOffset = math.floor(self.h/2 - math.floor(love.graphics.getFont():getWidth(self.text)/(self.w-2*self.xOffset))*love.graphics.getFont():getHeight()/2)+.5		
   end;
   
   resize = function(self, oldW, oldH, newW, newH)
