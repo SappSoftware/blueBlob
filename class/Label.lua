@@ -7,11 +7,11 @@ Label = Class{
     self.font = font or FNT.DEFAULT
     self.color = color or CLR.WHITE
     self.ox = 0
-    self.oy = math.floor(love.graphics.getFont():getHeight()/2)
+    self.oy = math.floor(self.font:getHeight()/2)
     if self.alignment == "right" then
-      self.ox = math.floor(love.graphics.getFont():getWidth(self.text))
+      self.ox = math.floor(self.font:getWidth(self.text))
     elseif self.alignment == "center" then
-      self.ox = math.floor(love.graphics.getFont():getWidth(self.text)/2)
+      self.ox = math.floor(self.font:getWidth(self.text)/2)
     end
   end;
   
