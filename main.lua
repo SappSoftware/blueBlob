@@ -1,4 +1,4 @@
-debug = true
+debug = false
 
 HC = require "hc"
 Shape = require "hc.shapes"
