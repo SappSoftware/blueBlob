@@ -4,15 +4,39 @@ local buttons = {}
 local labels = {}
 local fields = {}
 
+local ui_square = {}
+local background = {}
+
+local equations = {}
+local fromState = {}
+
 function overlay:init()
+  ui_square = HC.rectangle(SW*.1, SW*.1, SW*.8, SW*.6)
+  background = HC.rectangle(0,0,SW,SH)
   mousePos = HC.point(love.mouse.getX(), love.mouse.getY())
   self:initializeButtons()
   self:initializeLabels()
   self:initializeFields()
 end
 
-function overlay:enter(from)
-  love.graphics.setBackgroundColor(CLR.BLACK)
+function overlay:enter(from, expressions)
+  fromState = from
+  equations = {}
+  for i = 1, 20 do
+    labels[i] = nil
+  end
+  
+  if from == game then
+    for i, expression in ipairs(expressions) do
+      equations[i] = i .. ". " .. expression
+      labels[i] = Label(equations[i], .3, .18+(i*.02), "left", CLR.WHITE)
+    end
+  else
+    for i, expression in ipairs(expressions) do
+      equations[i] = expression
+      labels[i] = Label(equations[i], .3, .18+(i*.02), "left", CLR.WHITE)
+    end
+  end
 end
 
 function overlay:update(dt)
@@ -48,7 +72,11 @@ function overlay:mousepressed(mousex, mousey, mouseButton)
 end
 
 function overlay:draw()
-  drawFPS(fpsCounter)
+  fromState:draw()
+  love.graphics.setColor(0,0,0,160)
+  background:draw("fill")
+  love.graphics.setColor(CLR.BLACK)
+  ui_square:draw("fill")
   for key, button in pairs(buttons) do
     button:draw()
   end
@@ -61,19 +89,20 @@ function overlay:draw()
 end
 
 function overlay:initializeButtons()
-  buttons.genericButton = Button(xPos, yPos, width, height, "Button Text")
   
-  buttons.genericButton.action = function()
-    love.mouse.setCursor()
-  end
 end
 
 function overlay:initializeLabels()
-  labels.title = Label("State Title", .5, .1, "center", CLR.WHITE)
+  labels.title = Label("Equations used", .5, .13, "center", CLR.WHITE, FNT.SCORE)
 end
 
 function overlay:initializeFields()
-  fields.genericField = FillableField(.5, .4, .15, .03, "Field Text", false, true, 16)
+end
+
+function overlay:keypressed(key)
+  if key == "tab" or key == "escape" then
+    Gamestate.pop()
+  end
 end
 
 function overlay:handleMouse()

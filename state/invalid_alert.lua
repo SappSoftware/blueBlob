@@ -53,9 +53,6 @@ function invalid_alert:keypressed(key)
   for pos, field in pairs(fields) do
     field:keypressed(key)
   end
-  if key == "p" then
-    Gamestate.pop()
-  end
 end
 
 function invalid_alert:mousepressed(mousex, mousey, mouseButton)

@@ -20,9 +20,9 @@ function results:init()
 end
 
 function results:enter(from, expressions, points, shotsTaken)
+  equations = {}
   for i, expression in ipairs(expressions) do
     equations[i] = i .. ". " .. expression
-    --labels[i] = Label(equations[i], .3, .922+(i*.02), "left", CLR.WHITE)
   end
   score = points
   shots = shotsTaken
@@ -39,6 +39,10 @@ end
 function results:keypressed(key)
   for pos, field in pairs(fields) do
     field:keypressed(key)
+  end
+  
+  if key == "tab" then
+    Gamestate.push(overlay, equations)
   end
 end
 

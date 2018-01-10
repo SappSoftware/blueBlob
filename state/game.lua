@@ -121,6 +121,10 @@ function game:keypressed(key)
   if key == "r" then
     Gamestate.push(results, plane.expression, points, numShots)
   end
+  
+  if key == "tab" then
+    Gamestate.push(overlay, plane.expression)
+  end
 end
 
 function game:textinput(text)
