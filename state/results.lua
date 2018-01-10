@@ -20,7 +20,7 @@ end
 
 function results:enter(from, expressions, points)
   for i, expression in ipairs(expressions) do
-    equations[i] = i .. ". y = " .. expression
+    equations[i] = i .. ". " .. expression
     text_lines[i] = TextLine(equations[i], .3, .922+(i*.02), "left", CLR.WHITE)
   end
   score = points
