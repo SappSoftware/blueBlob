@@ -30,10 +30,10 @@ BlueBlob = Class{
   end;
   
   getMinY = function(self)
-    return self.pos.y - self.radius
+    return -self.pos.y - self.radius
   end;
   
   getMaxY = function(self)
-    return self.pos.y + self.radius
+    return -self.pos.y + self.radius
   end;
 }

@@ -35,7 +35,7 @@ Button = Class{
   
   highlight = function(self, mousePos)
     if self.isActive then
-      if not self.isSelectable then return false end
+      if not self.isSelectable then self.isHighlighted = false return false end
       local test = mousePos:collidesWith(self.body)
       if test then
         self.isHighlighted = true
@@ -52,6 +52,11 @@ Button = Class{
     if self.isHighlighted then
       self:action()
     end
+  end;
+  
+  settext = function(self, newText)		
+    self.text = newText		
+    self.yOffset = math.floor(self.h/2 - math.floor(love.graphics.getFont():getWidth(self.text)/(self.w-2*self.xOffset))*love.graphics.getFont():getHeight()/2)+.5		
   end;
   
   resize = function(self, oldW, oldH, newW, newH)

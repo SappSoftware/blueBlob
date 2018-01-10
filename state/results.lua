@@ -1,7 +1,7 @@
 results = {}
 
 local buttons = {}
-local text_lines = {}
+local labels = {}
 local fields = {}
 
 local ui_square = {}
@@ -9,22 +9,27 @@ local ui_square = {}
 local equations = {}
 
 local score = 0
+local shots = 0
 
 function results:init()
   mousePos = HC.point(love.mouse.getX(), love.mouse.getY())
   ui_square = HC.rectangle(0, SW, SW, SH-SW)
   self:initializeButtons()
-  self:initializeTextLines()
+  self:initializeLabels()
   self:initializeFields()
 end
 
-function results:enter(from, expressions, points)
+function results:enter(from, expressions, points, shotsTaken)
   for i, expression in ipairs(expressions) do
     equations[i] = i .. ". " .. expression
-    text_lines[i] = TextLine(equations[i], .3, .922+(i*.02), "left", CLR.WHITE)
+    --labels[i] = Label(equations[i], .3, .922+(i*.02), "left", CLR.WHITE)
   end
   score = points
-  text_lines.score:settext("Score: " .. score)
+  shots = shotsTaken
+  
+  labels.score:settext("Score: " .. score)
+  labels.shots:settext("Shots: " .. shots)
+  
 end
 
 function results:update(dt)
@@ -68,8 +73,8 @@ function results:draw()
   for pos, field in pairs(fields) do
     field:draw()
   end
-  for pos, text_line in pairs(text_lines) do
-    text_line:draw()
+  for pos, label in pairs(labels) do
+    label:draw()
   end
 end
 
@@ -85,8 +90,8 @@ function results:drawUI()
   for pos, field in pairs(fields) do
     field:draw()
   end
-  for pos, text_line in pairs(text_lines) do
-    text_line:draw()
+  for pos, label in pairs(labels) do
+    label:draw()
   end
 end
 
@@ -105,8 +110,9 @@ function results:initializeButtons()
   end
 end
 
-function results:initializeTextLines()
-  text_lines.score = TextLine("Score: " .. score, .07, .955, "left", CLR.WHITE)
+function results:initializeLabels()
+  labels.score = Label("Score: " .. score, .1, .95, "left", CLR.WHITE, FNT.SCORE)
+  labels.shots = Label("Shots: " .. shots, .35, .95, "left", CLR.WHITE, FNT.SCORE)
 end
 
 function results:initializeFields()
@@ -130,9 +136,9 @@ function results:handleMouse()
   end
   
   if highlightButton then
-    love.mouse.setCursor(cur_highlight)
+    love.mouse.setCursor(CUR.H)
   elseif highlightField then
-    love.mouse.setCursor(cur_field)
+    love.mouse.setCursor(CUR.I)
   else
     love.mouse.setCursor()
   end

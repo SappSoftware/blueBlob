@@ -2,7 +2,7 @@ invalid_alert = {}
 
 local buttons = {}
 local fields = {}
-local text_lines = {}
+local labels = {}
 
 local ui_square = {}
 local background = {}
@@ -11,14 +11,14 @@ function invalid_alert:init()
   ui_square = HC.rectangle(SW*.1, SW*.1, SW*.8, SW*.6)
   background = HC.rectangle(0,0,SW,SH)
   
-  text_lines.errorMessage = TextLine("There's an error in your formula!", .5, .3, "center")
+  labels.errorMessage = Label("There's an error in your formula!", .5, .3, "center")
   
   buttons.comply = Button(.5, .5, .1, .05, "Gotcha")
   buttons.comply.action = returnToGame
 end
 
 function invalid_alert:enter(from, errorMessage)
-  text_lines.errorMessage:settext(errorMessage)
+  labels.errorMessage:settext(errorMessage)
 end
 
 function invalid_alert:update(dt)
@@ -44,8 +44,8 @@ function invalid_alert:draw()
   for pos, field in pairs(fields) do
     field:draw()
   end
-  for _, text_line in pairs(text_lines) do
-    text_line:draw()
+  for _, label in pairs(labels) do
+    label:draw()
   end
 end
 
@@ -77,26 +77,26 @@ function invalid_alert:mousepressed(mousex, mousey, mouseButton)
 end
 
 function invalid_alert:handleMouse()
-  mousePointer:moveTo(love.mouse.getX(), love.mouse.getY())
+  mousePos:moveTo(love.mouse.getX(), love.mouse.getY())
   local highlightButton = false
   local highlightField = false
   
   for key, button in pairs(buttons) do
-    if button:highlight(mousePointer) then
+    if button:highlight(mousePos) then
       highlightButton = true
     end
   end
   
   for key, field in pairs(fields) do
-    if field:highlight(mousePointer) then
+    if field:highlight(mousePos) then
       highlightField = true
     end
   end
   
   if highlightButton then
-    love.mouse.setCursor(cur_highlight)
+    love.mouse.setCursor(CUR.H)
   elseif highlightField then
-    love.mouse.setCursor(cur_field)
+    love.mouse.setCursor(CUR.I)
   else
     love.mouse.setCursor()
   end

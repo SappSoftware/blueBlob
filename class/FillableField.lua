@@ -1,5 +1,5 @@
 FillableField = Class{__includes = Button,
-  init = function(self, x, y, w, h, default_text, isNumber, hasTitle, isPrivate)
+  init = function(self, x, y, w, h, default_text, isNumber, hasTitle, textLimit, isPrivate)
     Button.init(self, x, y, w, h, default_text)
     self.default_text = default_text
     self.isNumber = isNumber
@@ -8,9 +8,9 @@ FillableField = Class{__includes = Button,
     self.line = false
     self.lineIndex = nil
     self.fontHeight = love.graphics.getFont():getHeight()
-    self.isPrivate = false or isPrivate
+    self.isPrivate = isPrivate or rfalse
     self.hasTitle = hasTitle
-    self.textLimit = 500
+    self.textLimit = textLimit or 500
     if self.hasTitle then
       self.title = self.default_text
       self.default_text = ""
@@ -232,5 +232,9 @@ FillableField = Class{__includes = Button,
       self.linePulse = FillableField.pulseTime
       self.line = true
     end
+  end;
+  
+  getcontrolstatus = function(self)
+    return self.hasControl
   end;
 }
