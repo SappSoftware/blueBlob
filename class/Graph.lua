@@ -390,9 +390,16 @@ Graph = Class{
   checkPreviousEquations = function(self)
     if #self.expression > 1 then
       for i = 1, #self.expression-1 do
-        if self.expression[i] == self.expression[#self.expression] then
-          table.remove(self.expression)
-          return true
+        if self.isOfX then
+          if self.expression[i] == "y = " .. self.expression[#self.expression] then
+            table.remove(self.expression)
+            return true
+          end
+        else
+          if self.expression[i] == "x = " .. self.expression[#self.expression] then
+            table.remove(self.expression)
+            return true
+          end
         end
       end
     end

@@ -29,11 +29,11 @@ function game:init()
   ui_square = HC.rectangle(0, SW, SW, SH-SW)
   
   buttons.launch = Button(.9, .9647, .1, .04, "Launch")
-  buttons.swap = Button(.25, .9647, .07, .03, "Swap")
+  buttons.equals = Button(.28, .964, .04, .03, "y =")
   
   --buttons.launch.action = launchExpression
   buttons.launch.action = partsLaunch
-  buttons.swap.action = swap
+  buttons.equals.action = swap
   
   
   fields.Expression = FillableField(.53, .964, .45, .03, "", false, false)
@@ -41,7 +41,6 @@ function game:init()
   fields.Expression.textLimit = 45
   
   text_lines.score = TextLine("Score: " .. points, .07, .955, "left", CLR.WHITE)
-  text_lines.y = TextLine("y = ", .29, .967, "center", CLR.WHITE)
   text_lines.shotsLeft = TextLine("Shots Remaining: " .. shotsLeft, .07, .975, "left", CLR.WHITE)
 end
 
@@ -64,8 +63,8 @@ function game:enter(from)
 
   camera:lookAt(0, (SH-SW)/2)
   
-  text_lines.score:setText("Score: " .. points)
-  text_lines.shotsLeft:setText("Shots Remaining: " .. shotsLeft)
+  text_lines.score:settext("Score: " .. points)
+  text_lines.shotsLeft:settext("Shots Remaining: " .. shotsLeft)
 end
 
 function game:update(dt)
@@ -88,11 +87,16 @@ function game:update(dt)
         local pointsScored = plane:getScore()
         points = points + pointsScored
         shotsLeft = shotsLeft - 1
-        text_lines.score:setText("Score: " .. points)
-        text_lines.shotsLeft:setText("Shots Remaining: " .. shotsLeft)
+        text_lines.score:settext("Score: " .. points)
+        text_lines.shotsLeft:settext("Shots Remaining: " .. shotsLeft)
         plane.currentIter = 1
         plane.currentX = -SW/2
-        
+        plane.currentY = -SW/2
+        if plane.isOfX then
+          plane.expression[#plane.expression] = "y = " .. plane.expression[#plane.expression]
+        else
+          plane.expression[#plane.expression] = "x = " .. plane.expression[#plane.expression]
+        end
         if shotsLeft == 0 then
           Gamestate.push(results, plane.expression, points)
         end
@@ -206,8 +210,8 @@ function launchExpression()
       local pointsScored = plane:checkGlobCollisions()
       points = points + pointsScored
       shotsLeft = shotsLeft - 1
-      text_lines.score:setText("Score: " .. points)
-      text_lines.shotsLeft:setText("Shots Remaining: " .. shotsLeft)
+      text_lines.score:settext("Score: " .. points)
+      text_lines.shotsLeft:settext("Shots Remaining: " .. shotsLeft)
     else
       Gamestate.push(invalid_alert)
     end
@@ -255,8 +259,8 @@ function swap()
   fields.Expression:setvalue("")
   plane:setErrorSubs()
   if plane.isOfX == true then
-    text_lines.y:setText("y = ")
+    buttons.equals:settext("y =")
   else
-    text_lines.y:setText("x = ")
+    buttons.equals:settext("x =")
   end
 end

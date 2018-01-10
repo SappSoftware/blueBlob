@@ -24,7 +24,7 @@ function results:enter(from, expressions, points)
     text_lines[i] = TextLine(equations[i], .3, .922+(i*.02), "left", CLR.WHITE)
   end
   score = points
-  text_lines.score:setText("Score: " .. score)
+  text_lines.score:settext("Score: " .. score)
 end
 
 function results:update(dt)

@@ -50,6 +50,11 @@ Button = Class{
     end
   end;
   
+  settext = function(self, newText)
+    self.text = newText
+    self.yOffset = math.floor(self.h/2 - math.floor(love.graphics.getFont():getWidth(self.text)/(self.w-2*self.xOffset))*love.graphics.getFont():getHeight()/2)+.5
+  end;
+  
   resize = function(self, oldW, oldH, newW, newH)
     self.w = self.w*(newW/oldW)
     self.h = self.h*(newH/oldH)

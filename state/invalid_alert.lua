@@ -18,7 +18,7 @@ function invalid_alert:init()
 end
 
 function invalid_alert:enter(from, errorMessage)
-  text_lines.errorMessage:setText(errorMessage)
+  text_lines.errorMessage:settext(errorMessage)
 end
 
 function invalid_alert:update(dt)
