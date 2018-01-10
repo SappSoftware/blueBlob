@@ -52,7 +52,6 @@ function love.load(arg)
   love.graphics.setBackgroundColor(CLR.WHITE)
   CUR.H = love.mouse.getSystemCursor("hand")
   CUR.I = love.mouse.getSystemCursor("ibeam")
-  test()
   Gamestate.switch(main_menu)
 end
 
