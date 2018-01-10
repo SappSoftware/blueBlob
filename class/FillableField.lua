@@ -8,7 +8,7 @@ FillableField = Class{__includes = Button,
     self.line = false
     self.lineIndex = nil
     self.fontHeight = love.graphics.getFont():getHeight()
-    self.isPrivate = isPrivate or rfalse
+    self.isPrivate = isPrivate or false
     self.hasTitle = hasTitle
     self.textLimit = textLimit or 500
     if self.hasTitle then
