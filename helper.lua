@@ -40,3 +40,14 @@ toSeed = function(seed)
   
   return returnSeed
 end
+
+
+stringToSeed = function(s)
+  local maxSeed = 2^32
+	local seedlo, seedhi = 1, 1
+	for i=1,s:len() do
+		seedlo = (seedhi * 31337 + s:byte(            i)) % maxSeed
+		seedhi = (seedlo * 31337 - s:byte((s:len()+1)-i)) % maxSeed
+	end
+	return seedlo, seedhi
+end
